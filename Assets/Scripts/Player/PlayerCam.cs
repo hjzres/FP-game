@@ -12,16 +12,21 @@ public class PlayerCam : MonoBehaviour
 
     private void Start()
     {
-        float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * mouseSensitivity;
-        float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * mouseSensitivity;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    private void Update()
+    {
+        float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * (mouseSensitivity * 100);
+        float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * (mouseSensitivity * 100);
 
         XRotation -= mouseY;
         XRotation = Mathf.Clamp(XRotation, -90f, 90f);
 
         YRotation += mouseX;
 
-        transform.localRotation = Quaternion.Euler(XRotation, YRotation, 0f);
-
-        transform.parent.rotation *= Quaternion.Euler(0f, YRotation, 0f);
+        transform.localRotation = Quaternion.Euler(XRotation, 0f, 0f);
+        transform.parent.rotation = Quaternion.Euler(0f, YRotation, 0f);
     }
 }
